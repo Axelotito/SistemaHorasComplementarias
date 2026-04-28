@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Colores personalizados basados en tu diseño
-        'dark-bg': '#0f172a',    // El fondo más oscuro
-        'card-bg': '#1e293b',    // El color de las tarjetas
-        'unam-blue': '#1e3a8a',  // Azul institucional
-        'unam-gold': '#eab308',  // Dorado/Amarillo de progreso
+        'base-bg': '#191e28',    // Fondo general gris oscuro
+        'surface': '#232a35',    // Fondo de las tarjetas y tabla
+        'sidebar': '#081a3f',    // Azul marino institucional (Barra lateral)
+        'unam-gold': '#c29b45',  // Dorado exacto de botones y textos
+        'card-blue': '#0a2353',  // Azul de la tarjeta "Nueva Carga"
       },
     },
   },

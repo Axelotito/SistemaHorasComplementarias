@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globales básicos para que el scroll y el fondo se vean bien */
 body {
   margin: 0;
-  background-color: #0f172a; /* Mismo que dark-bg */
+  background-color: #191e28; /* Se conecta con base-bg */
   color: white;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
