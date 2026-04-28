@@ -4,38 +4,52 @@ const ProgressBar = ({ progress = 75, registered = 180, total = 240 }) => {
   const remaining = total - registered;
 
   return (
-    <div className="bg-[#1e293b] text-white p-6 rounded-xl shadow-lg flex items-center gap-8 border border-gray-700">
-      {/* Gráfico Circular Simplificado */}
-      <div className="relative w-32 h-32 flex items-center justify-center">
-        <svg className="w-full h-full transform -rotate-90">
-          <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-700" />
-          <circle 
-            cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" 
-            strokeDasharray={364.4} 
-            strokeDashoffset={364.4 - (364.4 * progress) / 100}
-            className="text-yellow-500 transition-all duration-1000 ease-in-out" 
-          />
-        </svg>
-        <span className="absolute text-2xl font-bold">{progress}%</span>
-      </div>
-      
-      {/* Textos de información */}
-      <div className="text-left flex-1">
-        <h3 className="text-gray-400 text-sm uppercase tracking-wider font-semibold">Tracking Panel</h3>
-        <div className="mt-2">
-          <p className="text-3xl font-bold">{registered}/{total}</p>
-          <p className="text-sm text-gray-400">Horas Registradas</p>
+    <div className="flex gap-6">
+      {/* Panel Izquierdo: Gráfica y Datos */}
+      <div className="bg-[#1e293b] text-white p-6 rounded-xl shadow-lg flex-1 flex items-center gap-8 border border-gray-700">
+        
+        {/* Gráfico Circular con tono Dorado */}
+        <div className="relative w-36 h-36 flex items-center justify-center">
+          <svg className="w-full h-full transform -rotate-90 drop-shadow-md">
+            <circle cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-gray-700" />
+            <circle 
+              cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" 
+              strokeDasharray={402} 
+              strokeDashoffset={402 - (402 * progress) / 100}
+              className="text-[#cda434] transition-all duration-1000 ease-in-out" 
+              strokeLinecap="round"
+            />
+          </svg>
+          <span className="absolute text-3xl font-bold">{progress}%</span>
         </div>
-        <div className="mt-4">
-          <p className="text-xl font-semibold text-yellow-500">{remaining}</p>
-          <p className="text-xs text-gray-400 font-medium">Horas Restantes</p>
+        
+        {/* Textos de información */}
+        <div className="text-left flex-1 border-l border-gray-700 pl-8">
+          <h3 className="text-gray-400 text-sm uppercase tracking-widest font-bold mb-4">Tracking Panel</h3>
+          
+          <div className="flex gap-12">
+            <div>
+              <p className="text-4xl font-extrabold text-white">{registered}<span className="text-xl text-gray-500">/{total}</span></p>
+              <p className="text-sm text-gray-400 mt-1">Horas Registradas</p>
+            </div>
+            <div>
+              <p className="text-4xl font-extrabold text-[#cda434]">{remaining}</p>
+              <p className="text-sm text-gray-400 mt-1">Horas Restantes</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Botón de Nueva Carga */}
-      <button className="bg-blue-900/20 border border-blue-500 text-blue-400 p-4 rounded-lg flex flex-col items-center hover:bg-blue-600 hover:text-white transition-all group w-40">
-        <span className="text-xs font-bold uppercase mb-2 text-center">Nueva Carga de Evidencias</span>
-        <div className="bg-blue-500 text-white rounded-full p-2 group-hover:bg-white group-hover:text-blue-600 transition-colors">➔</div>
+      {/* Tarjeta Derecha: Botón de Nueva Carga (Estilo FES) */}
+      <button className="bg-[#1e3a8a] border border-[#cda434] w-48 rounded-xl shadow-lg flex flex-col overflow-hidden hover:scale-105 transition-transform duration-200 group">
+        <div className="p-6 flex-1 flex flex-col items-center justify-center gap-4">
+          <span className="text-[#cda434] text-4xl">📄</span>
+          <span className="text-sm font-bold uppercase text-center text-white leading-tight">Nueva Carga<br/>de Evidencias</span>
+        </div>
+        {/* Base dorada del botón */}
+        <div className="bg-[#cda434] w-full py-3 flex justify-center items-center group-hover:bg-yellow-500 transition-colors">
+          <span className="text-black font-bold text-xl">➔</span>
+        </div>
       </button>
     </div>
   );
