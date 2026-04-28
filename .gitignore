@@ -1,0 +1,15 @@
+# Entorno virtual y caché de Python (Backend)
+venv/
+env/
+__pycache__/
+*.pyc
+db.sqlite3
+
+# Dependencias de Node (Frontend)
+node_modules/
+dist/
+build/
+
+# Variables de entorno y configuraciones locales
+.env
+.DS_Store
