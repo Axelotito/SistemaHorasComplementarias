@@ -7,11 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'base-bg': '#191e28',    // Fondo general gris oscuro
-        'surface': '#232a35',    // Fondo de las tarjetas y tabla
-        'sidebar': '#081a3f',    // Azul marino institucional (Barra lateral)
-        'unam-gold': '#c29b45',  // Dorado exacto de botones y textos
-        'card-blue': '#0a2353',  // Azul de la tarjeta "Nueva Carga"
+        'base-bg': '#111827',
+        'surface': '#1f2937',
+        'sidebar-blue': '#0a2353', // El azul de tu imagen
+        'unam-gold': '#c29b45',    // El dorado de la FES
       },
     },
   },

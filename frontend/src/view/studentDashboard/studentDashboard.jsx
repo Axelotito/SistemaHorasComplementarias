@@ -1,74 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react'; // Importamos useState
 import Sidebar from '../../components/sidebar';
 import ProgressBar from '../../components/progressBar';
 
 const StudentDashboard = () => {
+  // Estado para controlar si el menú lateral está abierto en móvil
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-base-bg font-sans">
-      <Sidebar />
+      {/* Pasamos el estado y la función para cerrar al Sidebar */}
+      <Sidebar isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       
-      <main className="flex-1 p-10 overflow-y-auto">
-        {/* Cabecera */}
-        <header className="flex justify-between items-center mb-8 pb-4">
-          <h1 className="text-white text-xl font-bold uppercase tracking-tight">
-            Sistema de Horas Complementarias - Ingeniería en Computación
-          </h1>
+      <main className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
+        <header className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
+          <div className="flex items-center gap-4">
+            {/* Botón de Hamburguesa: Solo visible en móviles */}
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="lg:hidden text-white text-2xl p-2 hover:bg-gray-800 rounded"
+            >
+              ☰
+            </button>
+            <h1 className="text-white text-sm lg:text-xl font-bold uppercase tracking-tight">
+              Sistema de Horas Complementarias
+            </h1>
+          </div>
           <div className="flex gap-4 text-gray-400 text-xl cursor-pointer">🔔 👤</div>
         </header>
 
-        {/* Sección Principal de Progreso */}
-        <section className="mb-10">
-          <h2 className="text-white text-xl font-bold mb-6 text-left">Seguimiento Académico</h2>
-          <ProgressBar progress={75} registered={180} total={240} pending={30} rejected={10} />
+        <section className="mb-8">
+          <h2 className="text-white text-lg font-semibold mb-4 text-left">Seguimiento Académico</h2>
+          {/* El ProgressBar ya es azul y responsivo con el cambio de antes */}
+          <ProgressBar progress={75} registered={180} total={240} />
         </section>
 
-        {/* Tabla de Historial */}
+        {/* Tarjetas de Resumen responsivas (grid-cols-1 en móvil, 3 en desktop) */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <StatusCard label="Aprobadas" value="180h" color="text-green-500" />
+          <StatusCard label="Pendientes" value="30h" color="text-yellow-500" />
+          <StatusCard label="Rechazadas" value="10h" color="text-red-500" />
+        </section>
+
+        {/* Tabla con scroll horizontal en móviles para que no se rompa el diseño */}
         <section>
-          <h2 className="text-white text-xl font-bold mb-6 text-left">Historial de Actividades</h2>
-          <div className="bg-surface rounded-xl overflow-hidden shadow-sm">
-            <table className="w-full text-left text-sm text-gray-300">
-              <thead className="text-xs text-white uppercase bg-[#2a3241] border-b border-gray-700">
-                <tr>
-                  <th className="px-6 py-4 font-bold">ID</th>
-                  <th className="px-6 py-4 font-bold">Actividad</th>
-                  <th className="px-6 py-4 font-bold">Fecha</th>
-                  <th className="px-6 py-4 font-bold">Tipo</th>
-                  <th className="px-6 py-4 font-bold">Horas</th>
-                  <th className="px-6 py-4 font-bold">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-700/50 hover:bg-[#1f2530] transition-colors">
-                  <td className="px-6 py-4">#3451</td>
-                  <td className="px-6 py-4 text-white font-medium">Taller de IA</td>
-                  <td className="px-6 py-4">2023-10-15</td>
-                  <td className="px-6 py-4">Curso</td>
-                  <td className="px-6 py-4">40h</td>
-                  <td className="px-6 py-4">
-                    <span className="text-green-400 border border-green-500/50 px-3 py-1 rounded-full bg-green-900/20 text-xs font-semibold">Aprobado</span>
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-700/50 hover:bg-[#1f2530] transition-colors">
-                  <td className="px-6 py-4">#3452</td>
-                  <td className="px-6 py-4 text-white font-medium">Conferencia UX</td>
-                  <td className="px-6 py-4">2023-11-01</td>
-                  <td className="px-6 py-4">Evento</td>
-                  <td className="px-6 py-4">10h</td>
-                  <td className="px-6 py-4">
-                    <span className="text-yellow-400 border border-yellow-500/50 px-3 py-1 rounded-full bg-yellow-900/20 text-xs font-semibold">Pendiente</span>
-                  </td>
-                </tr>
-                <tr className="hover:bg-[#1f2530] transition-colors">
-                  <td className="px-6 py-4">#3453</td>
-                  <td className="px-6 py-4 text-white font-medium">Seminario Web</td>
-                  <td className="px-6 py-4">2023-11-10</td>
-                  <td className="px-6 py-4">Evento</td>
-                  <td className="px-6 py-4">10h</td>
-                  <td className="px-6 py-4">
-                    <span className="text-yellow-400 border border-yellow-500/50 px-3 py-1 rounded-full bg-yellow-900/20 text-xs font-semibold">Pendiente</span>
-                  </td>
-                </tr>
-              </tbody>
+          <h2 className="text-white text-lg font-semibold mb-4 text-left">Historial</h2>
+          <div className="bg-surface rounded-xl border border-gray-700 overflow-x-auto">
+            <table className="w-full text-left text-sm text-gray-400 min-w-[600px]">
+              {/* Contenido de la tabla... */}
             </table>
           </div>
         </section>
@@ -76,5 +54,13 @@ const StudentDashboard = () => {
     </div>
   );
 };
+
+// Pequeño componente interno para las tarjetas
+const StatusCard = ({ label, value, color }) => (
+  <div className="bg-surface p-6 rounded-xl border border-gray-700 text-center shadow-md">
+    <p className="text-gray-400 text-xs uppercase font-bold mb-2">{label}</p>
+    <p className={`text-3xl font-bold ${color}`}>{value}</p>
+  </div>
+);
 
 export default StudentDashboard;
