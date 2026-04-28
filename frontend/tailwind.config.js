@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'base-bg': '#111827',
-        'surface': '#1f2937',
-        'sidebar-blue': '#0a2353', // El azul de tu imagen
-        'unam-gold': '#c29b45',    // El dorado de la FES
+        'base-bg': '#0f172a',
+        'surface': '#1e293b',
+        'sidebar-blue': '#0a2353', // Azul marino institucional
+        'unam-gold': '#c29b45',    // Dorado institucional
       },
     },
   },
