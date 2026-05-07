@@ -7,36 +7,28 @@ const StudentDashboard = () => {
   const [vistaActual, setVistaActual] = useState('Inicio');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 1. Convertimos el historial en un "Estado" para poder modificarlo
   const [historial, setHistorial] = useState([
     { id: '#3451', nombre: 'Taller de IA', fecha: '2023-10-15', tipo: 'Curso', horas: '40h', estado: 'Aprobado' },
     { id: '#3452', nombre: 'Conferencia UX', fecha: '2023-11-01', tipo: 'Evento', horas: '10h', estado: 'Pendiente' },
   ]);
 
-  // 2. Estados temporales para los inputs del formulario
   const [nuevoNombre, setNuevoNombre] = useState('');
   const [nuevoTipo, setNuevoTipo] = useState('Curso/Taller');
 
-  // 3. Función que simula el envío al backend
   const manejarEnvio = () => {
     if (!nuevoNombre) {
       alert("Por favor, ingresa el nombre de la actividad.");
       return;
     }
-
     const nuevaActividad = {
-      id: `#${Math.floor(Math.random() * 9000) + 1000}`, // ID aleatorio
+      id: `#${Math.floor(Math.random() * 9000) + 1000}`,
       nombre: nuevoNombre,
-      fecha: new Date().toISOString().split('T')[0], // Fecha de hoy
+      fecha: new Date().toISOString().split('T')[0],
       tipo: nuevoTipo,
       horas: 'Pendiente...',
       estado: 'Pendiente'
     };
-
-    // Agregamos la nueva actividad al inicio de la tabla
     setHistorial([nuevaActividad, ...historial]);
-    
-    // Limpiamos y cerramos
     setNuevoNombre('');
     setIsModalOpen(false);
     alert("¡Evidencia enviada a validación exitosamente!");
@@ -86,7 +78,7 @@ const StudentDashboard = () => {
                     </thead>
                     <tbody>
                       {historial.map((act, i) => (
-                        <tr key={i} className="border-b border-white/5">
+                        <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                           <td className="px-6 py-4 text-gray-500 font-mono">{act.id}</td>
                           <td className="px-6 py-4 text-white font-medium">{act.nombre}</td>
                           <td className="px-6 py-4">{act.fecha}</td>
@@ -107,8 +99,79 @@ const StudentDashboard = () => {
           </div>
         )}
 
-        {/* --- OTRAS VISTAS --- */}
-        {vistaActual !== 'Inicio' && (
+        {/* --- VISTA: PERFIL --- */}
+        {vistaActual === 'Perfil' && (
+          <div className="animate-fade-in bg-surface rounded-xl border border-white/10 p-8 shadow-2xl">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-white/10 pb-8 mb-8">
+              <div className="w-32 h-32 bg-sidebar-blue rounded-full border-4 border-unam-gold flex items-center justify-center text-5xl shadow-lg">
+                👨‍💻
+              </div>
+              <div className="text-center md:text-left">
+                <h2 className="text-3xl font-bold text-white mb-2">Axel Cruz</h2>
+                <p className="text-unam-gold font-medium text-lg mb-1">Ingeniería en Computación</p>
+                <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-400 text-sm mt-4">
+                  <span className="bg-[#0f172a] px-4 py-2 rounded-lg border border-white/5">No. Cuenta: 318XXXXXX</span>
+                  <span className="bg-[#0f172a] px-4 py-2 rounded-lg border border-white/5">Semestre: 8vo</span>
+                  <span className="bg-[#0f172a] px-4 py-2 rounded-lg border border-white/5">Sede: FES Aragón</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-lg mb-4">Información de Contacto</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-[#0f172a] p-4 rounded-lg border border-white/5">
+                  <p className="text-xs text-gray-500 uppercase font-bold">Correo Institucional</p>
+                  <p className="text-white">axel.cruz@aragon.unam.mx</p>
+                </div>
+                <div className="bg-[#0f172a] p-4 rounded-lg border border-white/5">
+                  <p className="text-xs text-gray-500 uppercase font-bold">Tutor Asignado</p>
+                  <p className="text-white">Ing. Imelda de la luz Flores Diaz</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- VISTA: REPORTES --- */}
+        {vistaActual === 'Reportes' && (
+          <div className="animate-fade-in">
+            <h2 className="text-white text-xl font-bold mb-6">Reporte Estadístico de Horas</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Gráfica Falsa de Barras */}
+              <div className="bg-surface rounded-xl border border-white/10 p-6 shadow-xl">
+                <h3 className="text-gray-300 font-bold mb-6">Distribución por Categoría</h3>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2"><span className="text-white">Cursos y Talleres</span><span className="text-unam-gold font-bold">120h</span></div>
+                    <div className="w-full bg-[#0f172a] rounded-full h-3"><div className="bg-blue-500 h-3 rounded-full" style={{ width: '65%' }}></div></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2"><span className="text-white">Conferencias</span><span className="text-unam-gold font-bold">40h</span></div>
+                    <div className="w-full bg-[#0f172a] rounded-full h-3"><div className="bg-purple-500 h-3 rounded-full" style={{ width: '25%' }}></div></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2"><span className="text-white">Proyectos (Software)</span><span className="text-unam-gold font-bold">20h</span></div>
+                    <div className="w-full bg-[#0f172a] rounded-full h-3"><div className="bg-green-500 h-3 rounded-full" style={{ width: '10%' }}></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-sidebar-blue rounded-xl border border-unam-gold p-6 shadow-xl flex flex-col justify-center items-center text-center">
+                <span className="text-5xl mb-4">📥</span>
+                <h3 className="text-white font-bold text-lg mb-2">Descargar Constancia Global</h3>
+                <p className="text-gray-400 text-sm mb-6">Genera un PDF oficial con el desglose de tus 180 horas aprobadas para trámites de titulación.</p>
+                <button className="bg-unam-gold text-black font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors w-full">
+                  Generar PDF
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* --- OTRAS VISTAS (En construcción) --- */}
+        {vistaActual !== 'Inicio' && vistaActual !== 'Perfil' && vistaActual !== 'Reportes' && (
           <div className="flex flex-col items-center justify-center h-64 text-center animate-fade-in">
             <span className="text-6xl mb-4">🚧</span>
             <h2 className="text-2xl font-bold text-white mb-2">Módulo de {vistaActual}</h2>
