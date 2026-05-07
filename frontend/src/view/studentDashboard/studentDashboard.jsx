@@ -4,13 +4,43 @@ import ProgressBar from '../../components/progressBar';
 
 const StudentDashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [vistaActual, setVistaActual] = useState('Inicio'); // Controla la pestaña
-  const [isModalOpen, setIsModalOpen] = useState(false); // Controla la ventana flotante
+  const [vistaActual, setVistaActual] = useState('Inicio');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const historial = [
+  // 1. Convertimos el historial en un "Estado" para poder modificarlo
+  const [historial, setHistorial] = useState([
     { id: '#3451', nombre: 'Taller de IA', fecha: '2023-10-15', tipo: 'Curso', horas: '40h', estado: 'Aprobado' },
     { id: '#3452', nombre: 'Conferencia UX', fecha: '2023-11-01', tipo: 'Evento', horas: '10h', estado: 'Pendiente' },
-  ];
+  ]);
+
+  // 2. Estados temporales para los inputs del formulario
+  const [nuevoNombre, setNuevoNombre] = useState('');
+  const [nuevoTipo, setNuevoTipo] = useState('Curso/Taller');
+
+  // 3. Función que simula el envío al backend
+  const manejarEnvio = () => {
+    if (!nuevoNombre) {
+      alert("Por favor, ingresa el nombre de la actividad.");
+      return;
+    }
+
+    const nuevaActividad = {
+      id: `#${Math.floor(Math.random() * 9000) + 1000}`, // ID aleatorio
+      nombre: nuevoNombre,
+      fecha: new Date().toISOString().split('T')[0], // Fecha de hoy
+      tipo: nuevoTipo,
+      horas: 'Pendiente...',
+      estado: 'Pendiente'
+    };
+
+    // Agregamos la nueva actividad al inicio de la tabla
+    setHistorial([nuevaActividad, ...historial]);
+    
+    // Limpiamos y cerramos
+    setNuevoNombre('');
+    setIsModalOpen(false);
+    alert("¡Evidencia enviada a validación exitosamente!");
+  };
 
   return (
     <div className="flex h-screen bg-base-bg overflow-hidden font-sans relative">
@@ -37,12 +67,10 @@ const StudentDashboard = () => {
           <div className="animate-fade-in">
             <section className="mb-10">
               <h2 className="text-white text-xl font-bold mb-6">Seguimiento Académico</h2>
-              {/* Le pasamos la función para abrir el modal */}
               <ProgressBar progress={75} registered={180} total={240} onNuevaCarga={() => setIsModalOpen(true)} />
             </section>
 
             <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-              {/* ... (Tus tarjetas de Aprobadas, Pendientes, Rechazadas) ... */}
               <div className="bg-surface p-6 rounded-xl border border-white/5 text-center shadow-lg"><p className="text-gray-400 text-xs uppercase font-bold mb-2">Aprobadas</p><p className="text-3xl font-bold text-green-500">180h</p></div>
               <div className="bg-surface p-6 rounded-xl border border-white/5 text-center shadow-lg"><p className="text-gray-400 text-xs uppercase font-bold mb-2">Pendientes</p><p className="text-3xl font-bold text-yellow-500">30h</p></div>
               <div className="bg-surface p-6 rounded-xl border border-white/5 text-center shadow-lg"><p className="text-gray-400 text-xs uppercase font-bold mb-2">Rechazadas</p><p className="text-3xl font-bold text-red-500">10h</p></div>
@@ -50,16 +78,26 @@ const StudentDashboard = () => {
 
             <section>
               <h2 className="text-white text-xl font-bold mb-6 text-left">Historial de Actividades</h2>
-              {/* ... (Tu tabla de historial) ... */}
               <div className="bg-surface rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm text-gray-300">
                     <thead className="text-xs text-white uppercase bg-[#2a3241] border-b border-white/10">
-                      <tr><th className="px-6 py-4">ID</th><th className="px-6 py-4">Actividad</th><th className="px-6 py-4">Estado</th></tr>
+                      <tr><th className="px-6 py-4">ID</th><th className="px-6 py-4">Actividad</th><th className="px-6 py-4">Fecha</th><th className="px-6 py-4">Estado</th></tr>
                     </thead>
                     <tbody>
                       {historial.map((act, i) => (
-                        <tr key={i} className="border-b border-white/5"><td className="px-6 py-4">{act.id}</td><td className="px-6 py-4">{act.nombre}</td><td className="px-6 py-4 text-green-400">{act.estado}</td></tr>
+                        <tr key={i} className="border-b border-white/5">
+                          <td className="px-6 py-4 text-gray-500 font-mono">{act.id}</td>
+                          <td className="px-6 py-4 text-white font-medium">{act.nombre}</td>
+                          <td className="px-6 py-4">{act.fecha}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${
+                              act.estado === 'Aprobado' ? 'text-green-400 border-green-500/30 bg-green-500/10' : 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10'
+                            }`}>
+                              {act.estado}
+                            </span>
+                          </td>
+                        </tr>
                       ))}
                     </tbody>
                   </table>
@@ -69,7 +107,7 @@ const StudentDashboard = () => {
           </div>
         )}
 
-        {/* --- OTRAS VISTAS (Simuladas) --- */}
+        {/* --- OTRAS VISTAS --- */}
         {vistaActual !== 'Inicio' && (
           <div className="flex flex-col items-center justify-center h-64 text-center animate-fade-in">
             <span className="text-6xl mb-4">🚧</span>
@@ -89,7 +127,11 @@ const StudentDashboard = () => {
             <form className="flex flex-col gap-5">
               <div>
                 <label className="text-sm font-bold text-gray-300 mb-2 block">Tipo de Actividad</label>
-                <select className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-3 text-white focus:border-unam-gold focus:outline-none">
+                <select 
+                  value={nuevoTipo}
+                  onChange={(e) => setNuevoTipo(e.target.value)}
+                  className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-3 text-white focus:border-unam-gold focus:outline-none"
+                >
                   <option>Curso/Taller</option>
                   <option>Conferencia/Seminario</option>
                   <option>Proyecto de Software</option>
@@ -97,7 +139,13 @@ const StudentDashboard = () => {
               </div>
               <div>
                 <label className="text-sm font-bold text-gray-300 mb-2 block">Nombre de la Actividad</label>
-                <input type="text" placeholder="Ej. Curso de Python Avanzado" className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-3 text-white focus:border-unam-gold focus:outline-none" />
+                <input 
+                  type="text" 
+                  value={nuevoNombre}
+                  onChange={(e) => setNuevoNombre(e.target.value)}
+                  placeholder="Ej. Curso de Python Avanzado" 
+                  className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-3 text-white focus:border-unam-gold focus:outline-none" 
+                />
               </div>
               <div>
                 <label className="text-sm font-bold text-gray-300 mb-2 block">Archivo de Evidencia (PDF/JPG)</label>
@@ -106,10 +154,7 @@ const StudentDashboard = () => {
               
               <button 
                 type="button" 
-                onClick={() => {
-                  alert("¡Evidencia subida al servidor exitosamente!");
-                  setIsModalOpen(false);
-                }} 
+                onClick={manejarEnvio} 
                 className="bg-unam-gold text-sidebar-blue font-black uppercase tracking-wider py-4 rounded-lg mt-4 hover:bg-yellow-500 transition-colors shadow-lg"
               >
                 Enviar a Validación

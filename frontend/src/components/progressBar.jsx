@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProgressBar = ({ progress = 75, registered = 180, total = 240 }) => {
+const ProgressBar = ({ progress = 75, registered = 180, total = 240, onNuevaCarga }) => {
   const remaining = total - registered;
 
   return (
