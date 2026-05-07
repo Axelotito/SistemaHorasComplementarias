@@ -4,7 +4,6 @@ const ProgressBar = ({ progress = 75, registered = 180, total = 240 }) => {
   const remaining = total - registered;
 
   return (
-    /* flex-col para móviles, flex-row para escritorio */
     <div className="flex flex-col lg:flex-row gap-6">
       
       {/* Panel de Seguimiento */}
@@ -39,15 +38,18 @@ const ProgressBar = ({ progress = 75, registered = 180, total = 240 }) => {
       </div>
 
       {/* Botón de Carga Azul como en la imagen */}
-      <div className="bg-sidebar-blue border border-unam-gold lg:w-56 rounded-xl flex flex-col items-center justify-center p-6 shadow-xl hover:scale-105 transition-transform group cursor-pointer">
-        <div className="bg-white/10 p-3 rounded-lg mb-4">
-          <span className="text-3xl">📄</span>
+      <div 
+        onClick={onNuevaCarga} 
+        className="bg-sidebar-blue border border-unam-gold lg:w-64 rounded-xl flex flex-col items-center justify-center p-8 shadow-xl hover:scale-105 transition-transform group cursor-pointer"
+      >
+        <div className="bg-white/10 p-4 rounded-xl mb-6">
+          <span className="text-white text-4xl">📄</span>
         </div>
-        <span className="text-xs font-black uppercase text-center text-white mb-6 tracking-tighter">
+        <span className="text-base font-bold uppercase text-center text-white mb-8 tracking-wider">
           Nueva Carga<br/>de Evidencias
         </span>
-        <button className="bg-unam-gold w-full py-2 rounded-md group-hover:bg-yellow-500 transition-colors">
-          <span className="text-[#0a2353] font-black">➔</span>
+        <button className="bg-unam-gold w-full py-2 rounded-lg group-hover:bg-yellow-500 transition-colors">
+          <span className="text-[#0a2353] font-black text-xl">➔</span>
         </button>
       </div>
     </div>
